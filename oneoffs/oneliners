@@ -1,0 +1,2 @@
+# To generate flame graph of specific thread
+dtrace -x ustackframes=100 -n 'profile-97 /execname == "mysqld" && arg1 && tid == 401/ { @[ustack()] = count(); } tick-60s { exit(0); }' -o out.stacks
