@@ -5,7 +5,7 @@
 * Includes all time even if process is moved off cpu run queue.
 * start with dtrace -s <scriptname> -p <pid>
 */
-pid$target:::entry {
+pid$target:mysqld::entry {
     self->time = timestamp;
 
 }
