@@ -24,7 +24,7 @@ dtrace:::BEGIN
 	min_ns = MIN_FS_LATENCY_MS * 1000000;
 }
 
-pid$1::*dispatch_command*:entry
+pid$1::*mysql_parse*:entry
 {
 	self->q_start = timestamp;
 	self->io_count = 0;
@@ -51,7 +51,7 @@ pid$1::my_write:return
 	self->fs_start = 0;
 }
 
-pid$1::*dispatch_command*:return
+pid$1::*mysql_parse*:return
 /self->q_start && (self->total_ns > min_ns)/
 {
 	this->query = timestamp - self->q_start;
@@ -61,7 +61,7 @@ pid$1::*dispatch_command*:return
 	    self->total_ns / 1000000, self->io_count);
 }
 
-pid$1::*dispatch_command*:return
+pid$1::*mysql_parse*:return
 /self->q_start/
 {
 	self->q_start = 0;
