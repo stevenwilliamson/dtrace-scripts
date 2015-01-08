@@ -28,8 +28,10 @@ pid$target::*mysql_parse*:return
 
 profile:::tick-1s
 {
-        printa("\nMySQL queries/second: %@d; query latency (ns):", @num);
+	printf("%Y ", walltimestamp);
+        printa("MySQL queries/second: %@d; query latency (ns):", @num);
         printa(@time);
+	printf("\n");
         clear(@time); clear(@num);
 }
 
