@@ -13,12 +13,12 @@ dtrace:::BEGIN
         printf("Tracing PID %d... Hit Ctrl-C to end.\n", $target);
 }
 
-mysql$target::*dispatch_command*:query-start
+pid$target::*mysql_parse*:entry
 {
         self->start = timestamp;
 }
 
-mysql$target::*dispatch_command*:query-done
+pid$target::*mysql_parse*:return
 /self->start/
 {
         @time = quantize(timestamp - self->start);
