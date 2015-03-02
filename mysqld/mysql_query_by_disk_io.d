@@ -29,4 +29,5 @@ pid$target::*mysql_parse*:return
 / self->follow && self->io_count > 10 /
 {
   @data[self->query] = sum(self->io_count);
+  self->follow = 0;
 }
