@@ -1,8 +1,8 @@
 #!/usr/sbin/dtrace -s
 
-#
-# Logs queries that create on disk MyISAM tmp tables
-#
+
+/* Logs queries that create on disk MyISAM tmp tables */
+
 
 #pragma D option quiet
 dtrace:::BEGIN

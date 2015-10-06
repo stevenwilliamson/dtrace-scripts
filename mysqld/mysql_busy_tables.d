@@ -21,10 +21,11 @@ dtrace:::BEGIN
 
 pid$target::*check_table_name*:entry
 {
-  @tables[stringof(copyin(arg0, arg1))] = count();
+  @tables[copyinstr(arg0, arg1)] = count();
 }
 
 tick-1s {
+  printf("tables hit per second\n");
   printa(@tables);
   trunc(@tables);
 }
