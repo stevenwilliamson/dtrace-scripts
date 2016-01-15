@@ -7,7 +7,6 @@
 #pragma D option aggsize=64k
 #pragma D option dynvarsize=8m
 
-
 io:::start
 {
 	iostart[args[0]->b_edev, args[0]->b_blkno] = timestamp;
