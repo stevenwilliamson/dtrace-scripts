@@ -1,9 +1,10 @@
 #!/usr/sbin/dtrace -s
 #pragma D option quiet
 
-/* Scheduling of the code responsible for handling net ticks 
+/* Scheduling of the code responsible for handling net ticks
  Used for debugging analysing net splits with rabbitmq apparently due to
- net tick timeout been reached */
+ net tick timeout been reached, script tries to show if the net ticks are scheduled to run
+  how long the net tick function ran and also displays info on blocked dist ports */
 
 BEGIN
 {
@@ -29,4 +30,15 @@ erlang$target:::process-unscheduled
   printf(" ran for %d us\n", self->delta / 1000);
   self->scheduled = 0;
   self->lastrun = timestamp;
+}
+
+erlang$target:::dist-port_busy
+{
+  printf("%Y port blocked node: %s  port: %s remote_node: %s pid that got blocked: %s\n", walltimestamp, copyinstr(arg0), copyinstr(arg1),
+   copyinstr(arg2), copyinstr(arg3));
+}
+
+erlang$target:::dist-port_not_busy
+{
+  printf("%Y prt unblocked node: %s port: %s remote_node: %s\n", walltimestamp, copyinstr(arg0), copyinstr(arg1), copyinstr(arg2));
 }
